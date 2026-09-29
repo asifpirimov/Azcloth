@@ -28,8 +28,8 @@ import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-// Real Google Client ID from Google Cloud Console
-const GOOGLE_CLIENT_ID = "667223605716-p86n3mh79lv8spo75l63k6198ebod1qr.apps.googleusercontent.com";
+// Real Google Client ID from Google Cloud Console or Env
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "667223605716-p86n3mh79lv8spo75l63k6198ebod1qr.apps.googleusercontent.com";
 
 const App = () => {
   return (
