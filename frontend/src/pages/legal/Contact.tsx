@@ -17,11 +17,9 @@ export const Contact = () => {
           <div className="space-y-4">
             <div>
               <p className="text-sm text-gray-500 uppercase tracking-wider font-bold">Email</p>
-              <p className="text-lg">[Əlaqə emaili]</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 uppercase tracking-wider font-bold">Hüquqi Ünvan</p>
-              <p className="text-lg">[Hüquqi ünvan]</p>
+              <p className="text-lg">
+                <a href="mailto:azcloth65@gmail.com" className="text-orange-500 hover:underline">azcloth65@gmail.com</a>
+              </p>
             </div>
             <div>
               <p className="text-sm text-gray-500 uppercase tracking-wider font-bold">İş Saatları</p>
