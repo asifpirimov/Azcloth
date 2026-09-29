@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} | AzCloth{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="grid grid-cols-1 md:grid-cols-2">
+        <!-- Image Gallery -->
+        <div class="bg-gray-50 p-8 flex items-center justify-center">
+            {% if product.main_image %}
+            <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="max-w-full h-auto rounded-xl shadow-sm">
+            {% else %}
+            <div class="text-gray-400">Şəkil yoxdur</div>
+            {% endif %}
+        </div>
+
+        <!-- Product Info -->
+        <div class="p-8 lg:p-12">
+            <a href="{% url 'marketplace:store_detail' store.slug %}" class="text-sm font-medium text-indigo-600 hover:underline mb-2 block">{{ store.name }}</a>
+            <h1 class="text-3xl font-extrabold text-gray-900 mb-4">{{ product.name }}</h1>
+            
+            <div class="flex items-end mb-6">
+                <span class="text-4xl font-black text-gray-900" id="priceDisplay">{{ product.base_price }}</span>
+                <span class="text-xl font-bold text-gray-500 ml-1 mb-1">AZN</span>
+            </div>
+
+            {% if product.total_stock > 0 %}
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 mb-6">
+                Mövcuddur
+            </span>
+            {% else %}
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 mb-6">
+                Stokda yoxdur
+            </span>
+            {% endif %}
+
+            <div class="prose text-gray-600 mb-8 text-sm">
+                {{ product.description|linebreaks }}
+            </div>
+
+            <!-- Variants Selection -->
+            <div class="mb-8">
+                <h3 class="text-sm font-medium text-gray-900 mb-3">Variant seçin</h3>
+                <div class="grid grid-cols-2 gap-3" id="variantSelector">
+                    {% for variant in variants %}
+                    <label class="border rounded-lg p-3 cursor-pointer hover:border-indigo-600 transition flex items-center justify-between variant-label">
+                        <input type="radio" name="variant" value="{{ variant.id }}" data-price="{{ variant.price }}" data-name="{{ variant.size }} / {{ variant.color }}" class="hidden variant-radio">
+                        <span class="text-sm font-medium">{{ variant.size }} - {{ variant.color }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Quantity -->
+            <div class="mb-8">
+                <h3 class="text-sm font-medium text-gray-900 mb-3">Miqdar</h3>
+                <input type="number" id="qtyInput" value="1" min="1" class="w-24 px-4 py-2 border rounded-md focus:ring-indigo-500">
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button id="whatsappBtn" class="flex-1 bg-green-500 text-white font-bold py-3 px-6 rounded-xl hover:bg-green-600 transition shadow-sm flex justify-center items-center">
+                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                    WhatsApp ilə sifariş et
+                </button>
+                <button id="addToCartBtn" class="flex-1 bg-white text-indigo-600 border-2 border-indigo-600 font-bold py-3 px-6 rounded-xl hover:bg-indigo-50 transition shadow-sm">
+                    Səbətə At
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Comments Section -->
+<div class="mt-12 bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+    <h2 class="text-2xl font-bold text-gray-900 mb-6">Rəylər</h2>
+    
+    {% if user.is_authenticated and user.is_buyer %}
+    <form action="{% url 'reviews:add_comment' product.id %}" method="post" class="mb-8">
+        {% csrf_token %}
+        <textarea name="text" rows="3" class="w-full px-4 py-2 border rounded-md focus:ring-indigo-500 mb-2" placeholder="Fikrinizi bildirin..."></textarea>
+        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Rəy Yaz</button>
+    </form>
+    {% elif not user.is_authenticated %}
+    <p class="text-gray-500 mb-8">Rəy yazmaq üçün <a href="{% url 'accounts:login' %}" class="text-indigo-600 hover:underline">daxil olun</a>.</p>
+    {% endif %}
+
+    <div class="space-y-6">
+        {% for comment in product.comments.all %}
+        <div class="border-b pb-4">
+            <div class="flex items-center justify-between mb-2">
+                <span class="font-bold text-gray-900">{{ comment.user.get_full_name|default:comment.user.email }}</span>
+                <span class="text-xs text-gray-500">{{ comment.created_at|date:"d M Y H:i" }}</span>
+            </div>
+            <p class="text-gray-700">{{ comment.text }}</p>
+        </div>
+        {% empty %}
+        <p class="text-gray-500">Hələ heç bir rəy yoxdur.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const radios = document.querySelectorAll('.variant-radio');
+        const priceDisplay = document.getElementById('priceDisplay');
+        const labels = document.querySelectorAll('.variant-label');
+        
+        let selectedVariant = null;
+
+        radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                labels.forEach(l => l.classList.remove('border-indigo-600', 'bg-indigo-50'));
+                if (this.checked) {
+                    this.parentElement.classList.add('border-indigo-600', 'bg-indigo-50');
+                    priceDisplay.textContent = this.dataset.price;
+                    selectedVariant = {
+                        id: this.value,
+                        name: this.dataset.name,
+                        price: this.dataset.price
+                    };
+                }
+            });
+        });
+
+        // Initialize first variant
+        if (radios.length > 0) {
+            radios[0].checked = true;
+            radios[0].dispatchEvent(new Event('change'));
+        }
+
+        const storePhone = "{{ store.whatsapp_number }}".replace(/[^0-9]/g, '');
+        const productName = "{{ product.name }}";
+        const productUrl = window.location.href;
+
+        document.getElementById('whatsappBtn').addEventListener('click', function() {
+            const qty = document.getElementById('qtyInput').value;
+            const variantText = selectedVariant ? selectedVariant.name : 'Standart';
+            const price = selectedVariant ? selectedVariant.price : '{{ product.base_price }}';
+            
+            const message = `Salam. AzCloth-da bu məhsulla maraqlanıram:\n\nMəhsul: ${productName}\nVariant: ${variantText}\nMiqdar: ${qty}\nQiymət: ${price} AZN\nLink: ${productUrl}`;
+            
+            window.open(`https://wa.me/${storePhone}?text=${encodeURIComponent(message)}`, '_blank');
+        });
+
+        document.getElementById('addToCartBtn').addEventListener('click', function() {
+            const qty = parseInt(document.getElementById('qtyInput').value);
+            const variantText = selectedVariant ? selectedVariant.name : 'Standart';
+            const price = selectedVariant ? parseFloat(selectedVariant.price) : parseFloat('{{ product.base_price }}');
+            
+            let cart = JSON.parse(localStorage.getItem('azcloth_cart') || '[]');
+            
+            cart.push({
+                storeName: "{{ store.name }}",
+                storeSlug: "{{ store.slug }}",
+                storePhone: storePhone,
+                productName: productName,
+                productUrl: productUrl,
+                variant: variantText,
+                price: price,
+                qty: qty,
+                image: "{% if product.main_image %}{{ product.main_image.url }}{% else %}''{% endif %}"
+            });
+            
+            localStorage.setItem('azcloth_cart', JSON.stringify(cart));
+            alert('Məhsul səbətə əlavə edildi!');
+        });
+    });
+</script>
+{% endblock %}

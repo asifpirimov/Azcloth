@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ store.name }} | AzCloth{% endblock %}
+
+{% block content %}
+<!-- Boutique Theme -->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+    .boutique-font { font-family: 'Playfair Display', serif; }
+</style>
+
+<div class="bg-stone-50 rounded-lg border border-stone-200 overflow-hidden mb-12 shadow-sm">
+    <div class="p-12 md:p-20 text-center relative">
+        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');"></div>
+        <h1 class="text-5xl font-bold text-stone-800 boutique-font italic mb-6 relative z-10">{{ store.name }}</h1>
+        <p class="text-stone-600 max-w-2xl mx-auto leading-relaxed relative z-10">{{ store.description }}</p>
+        
+        <div class="mt-10 relative z-10">
+            {% if store.whatsapp_number %}
+            <a href="https://wa.me/{{ store.whatsapp_number|cut:' ' }}" target="_blank" class="bg-stone-800 text-stone-50 px-8 py-3 rounded-sm hover:bg-stone-900 transition tracking-widest text-sm uppercase">
+                Boutique ilə əlaqə
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
+    {% for product in products %}
+    <a href="{% url 'marketplace:product_detail' store.slug product.slug %}" class="group block break-inside-avoid">
+        <div class="bg-white p-4 border border-stone-100 shadow-sm hover:shadow-lg transition duration-300">
+            <div class="overflow-hidden mb-4">
+                {% if product.main_image %}
+                <img src="{{ product.main_image.url }}" class="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition duration-500">
+                {% else %}
+                <div class="w-full h-64 bg-stone-100 flex items-center justify-center text-stone-400">Şəkil yoxdur</div>
+                {% endif %}
+            </div>
+            <div class="text-center">
+                <h3 class="text-lg text-stone-800 boutique-font mb-2">{{ product.name }}</h3>
+                <p class="text-stone-500 font-medium">{{ product.base_price }} AZN</p>
+            </div>
+        </div>
+    </a>
+    {% empty %}
+    <p class="text-stone-500 text-center">Məhsul tapılmadı.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Kataloq | AzCloth{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-3xl font-extrabold text-gray-900">Məhsullar</h1>
+    {% if query %}
+    <p class="text-gray-500 mt-2">"{{ query }}" üzrə axtarış nəticələri</p>
+    {% endif %}
+</div>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+    {% for product in products %}
+    <a href="{% url 'marketplace:product_detail' product.store.slug product.slug %}" class="group block">
+        <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition h-full flex flex-col">
+            <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
+                {% if product.main_image %}
+                <img src="{{ product.main_image.url }}" class="w-full h-48 object-cover object-center group-hover:opacity-75 transition">
+                {% else %}
+                <div class="w-full h-48 flex items-center justify-center text-gray-400">Şəkil yoxdur</div>
+                {% endif %}
+            </div>
+            <div class="p-4 flex flex-col flex-grow">
+                <p class="text-xs text-gray-500 mb-1">{{ product.store.name }}</p>
+                <h3 class="mt-1 text-sm font-medium text-gray-900 line-clamp-2">{{ product.name }}</h3>
+                <p class="mt-auto pt-2 text-lg font-bold text-indigo-600">{{ product.base_price }} AZN</p>
+            </div>
+        </div>
+    </a>
+    {% empty %}
+    <p class="text-gray-500 col-span-full">Məhsul tapılmadı.</p>
+    {% endfor %}
+</div>
+{% endblock %}

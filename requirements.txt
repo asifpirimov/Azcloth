@@ -1,0 +1,12 @@
+Django>=5.0,<6.0
+psycopg2-binary>=2.9,<3.0
+django-environ>=0.11,<0.12
+Pillow
+django-widget-tweaks>=1.5,<2.0
+djangorestframework
+djangorestframework-simplejwt
+django-cors-headers
+google-auth
+requests
+gunicorn
+whitenoise

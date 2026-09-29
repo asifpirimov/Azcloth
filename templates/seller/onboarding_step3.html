@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Satıcı Qeydiyyatı - Addım 3{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-100 mt-10 text-center">
+    <div class="mb-6 flex justify-center text-indigo-500">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+    </div>
+    
+    <h2 class="text-2xl font-bold text-gray-900 mb-2">Təsdiq Kodu</h2>
+    <p class="text-sm text-gray-500 mb-8">E-poçt ünvanınıza göndərilən kodu daxil edin. (Addım 3/3)</p>
+
+    <form method="post" class="space-y-5">
+        {% csrf_token %}
+        
+        <div>
+            {% render_field form.otp class="w-full text-center tracking-widest text-2xl px-4 py-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="------" autocomplete="off" %}
+        </div>
+
+        <button type="submit" class="w-full bg-indigo-600 text-white font-medium py-3 rounded-md hover:bg-indigo-700 transition shadow-sm">
+            Mağazanı Yarat
+        </button>
+    </form>
+</div>
+{% endblock %}

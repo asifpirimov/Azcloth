@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    
+    <!-- Invitations Section -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <h2 class="text-lg font-bold mb-4">Dəvətlər</h2>
+        
+        <form action="{% url 'administration:create_invitation' %}" method="post" class="mb-6 flex gap-2">
+            {% csrf_token %}
+            <input type="text" name="store_name" placeholder="Mağaza adı" class="flex-grow px-4 py-2 border border-gray-200 rounded-md focus:ring-indigo-500" required>
+            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">Dəvət Yarat</button>
+        </form>
+
+        <div class="space-y-4">
+            {% for inv in invitations %}
+            <div class="p-4 border rounded-md {% if inv.is_revoked %}bg-gray-50 opacity-50{% endif %}">
+                <p class="font-medium">{{ inv.store.name }}</p>
+                <div class="text-xs text-gray-500 mt-1 flex justify-between items-center">
+                    <span>Token: <code class="bg-gray-100 px-1 py-0.5 rounded">{{ inv.token }}</code></span>
+                    <span>Status: {{ inv.store.get_status_display }}</span>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-sm text-gray-500">Heç bir dəvət yoxdur.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Stores Section -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <h2 class="text-lg font-bold mb-4">Mağazalar</h2>
+        <div class="space-y-4">
+            {% for store in stores %}
+            <div class="p-4 border rounded-md">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="font-medium">{{ store.name }}</p>
+                        <p class="text-sm text-gray-500">{{ store.owner.email|default:"Sahibsiz" }}</p>
+                    </div>
+                    <span class="px-2 py-1 text-xs rounded-full font-medium 
+                        {% if store.status == 'ACTIVE' %}bg-green-100 text-green-800
+                        {% elif store.status == 'CLAIMED' %}bg-blue-100 text-blue-800
+                        {% elif store.status == 'SUSPENDED' %}bg-red-100 text-red-800
+                        {% else %}bg-gray-100 text-gray-800{% endif %}">
+                        {{ store.get_status_display }}
+                    </span>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-sm text-gray-500">Heç bir mağaza yoxdur.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

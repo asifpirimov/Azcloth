@@ -1,0 +1,27 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - link "azcloth" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e7]:
+        - link "Kəşf et" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - link "Mağazalar" [ref=e9] [cursor=pointer]:
+          - /url: /stores
+      - generic [ref=e10]:
+        - button "Pərakəndə" [ref=e11] [cursor=pointer]
+        - button "Topdan" [ref=e12] [cursor=pointer]
+    - generic [ref=e13]:
+      - img [aria-hidden] [ref=e14] [cursor=pointer]
+      - img [aria-hidden] [ref=e17] [cursor=pointer]
+      - link [ref=e20] [cursor=pointer]:
+        - /url: /cart
+      - link [ref=e24] [cursor=pointer]:
+        - /url: /login
+  - generic [ref=e28]:
+    - generic [ref=e30]:
+      - heading "Yeni tərzini kəşf et." [level=1] [ref=e31]
+      - paragraph [ref=e32]: Yerli butiklər, eksklüziv kolleksiyalar və hər zövqə uyğun geyimlər bir arada.
+      - textbox "Məhsul və ya mağaza axtar..." [ref=e34]
+    - button "Hamısı" [ref=e37]
+    - paragraph [ref=e41]: Məhsullar yüklənir...
