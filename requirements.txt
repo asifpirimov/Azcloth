@@ -10,3 +10,5 @@ google-auth
 requests
 gunicorn
 whitenoise
+cloudinary
+django-cloudinary-storage
