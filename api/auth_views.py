@@ -89,17 +89,22 @@ class RegisterView(generics.CreateAPIView):
         subject = 'AzCloth - E-poçt Təsdiqləmə Kodu'
         message = f'Salam {user.username},\n\nSizin e-poçt təsdiqləmə kodunuz: {otp}\n\nBu kod 10 dəqiqə ərzində etibarlıdır.'
         
-        try:
-            send_mail(
-                subject,
-                message,
-                settings.DEFAULT_FROM_EMAIL,
-                [user.email],
-                fail_silently=False,
-            )
-        except Exception as e:
-            print(f"E-poçt göndərilərkən xəta: {e}")
-            print(f"--- SIMULATED EMAIL (Fallback) --- \nTo: {user.email}\nOTP: {otp}\n-----------------------")
+        import threading
+
+        def send_otp_email():
+            try:
+                send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [user.email],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                print(f"E-poçt göndərilərkən xəta: {e}")
+                print(f"--- SIMULATED EMAIL (Fallback) --- \nTo: {user.email}\nOTP: {otp}\n-----------------------")
+        
+        threading.Thread(target=send_otp_email).start()
         
         EmailVerification.objects.create(
             user=user,
@@ -181,17 +186,22 @@ class ResendOTPView(APIView):
         subject = 'AzCloth - Yeni E-poçt Təsdiqləmə Kodu'
         message = f'Salam {user.username},\n\nSizin yeni e-poçt təsdiqləmə kodunuz: {otp}\n\nBu kod 10 dəqiqə ərzində etibarlıdır.'
         
-        try:
-            send_mail(
-                subject,
-                message,
-                settings.DEFAULT_FROM_EMAIL,
-                [user.email],
-                fail_silently=False,
-            )
-        except Exception as e:
-            print(f"E-poçt göndərilərkən xəta: {e}")
-            print(f"--- SIMULATED EMAIL (Fallback) --- \nTo: {user.email}\nOTP: {otp}\n-----------------------")
+        import threading
+
+        def send_otp_email_resend():
+            try:
+                send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [user.email],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                print(f"E-poçt göndərilərkən xəta: {e}")
+                print(f"--- SIMULATED EMAIL (Fallback) --- \nTo: {user.email}\nOTP: {otp}\n-----------------------")
+        
+        threading.Thread(target=send_otp_email_resend).start()
         
         EmailVerification.objects.create(
             user=user,
@@ -306,17 +316,22 @@ class StoreRegisterView(generics.CreateAPIView):
         subject = 'AzCloth - Mağaza E-poçt Təsdiqləmə Kodu'
         message = f'Salam {user.username},\n\nSizin mağaza hesabınız üçün e-poçt təsdiqləmə kodunuz: {otp}\n\nBu kod 10 dəqiqə ərzində etibarlıdır.'
         
-        try:
-            send_mail(
-                subject,
-                message,
-                settings.DEFAULT_FROM_EMAIL,
-                [user.email],
-                fail_silently=False,
-            )
-        except Exception as e:
-            print(f"E-poçt göndərilərkən xəta: {e}")
-            print(f"--- SIMULATED EMAIL (Fallback) --- \nTo: {user.email}\nOTP: {otp}\n-----------------------")
+        import threading
+
+        def send_otp_email_store():
+            try:
+                send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [user.email],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                print(f"E-poçt göndərilərkən xəta: {e}")
+                print(f"--- SIMULATED EMAIL (Fallback) --- \nTo: {user.email}\nOTP: {otp}\n-----------------------")
+        
+        threading.Thread(target=send_otp_email_store).start()
         
         EmailVerification.objects.create(
             user=user,
