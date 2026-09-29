@@ -102,7 +102,7 @@ class RegisterView(generics.CreateAPIView):
                 )
             except Exception as e:
                 print(f"E-poçt göndərilərkən xəta: {e}")
-                print(f"--- SIMULATED EMAIL (Fallback) --- \nTo: {user.email}\nOTP: {otp}\n-----------------------")
+                print(f"--- SIMULATED EMAIL (Fallback) --- \nTo: {user.email}\nOTP: {otp}\n-----------------------", flush=True)
         
         threading.Thread(target=send_otp_email).start()
         
@@ -199,7 +199,7 @@ class ResendOTPView(APIView):
                 )
             except Exception as e:
                 print(f"E-poçt göndərilərkən xəta: {e}")
-                print(f"--- SIMULATED EMAIL (Fallback) --- \nTo: {user.email}\nOTP: {otp}\n-----------------------")
+                print(f"--- SIMULATED EMAIL (Fallback) --- \nTo: {user.email}\nOTP: {otp}\n-----------------------", flush=True)
         
         threading.Thread(target=send_otp_email_resend).start()
         
@@ -329,7 +329,7 @@ class StoreRegisterView(generics.CreateAPIView):
                 )
             except Exception as e:
                 print(f"E-poçt göndərilərkən xəta: {e}")
-                print(f"--- SIMULATED EMAIL (Fallback) --- \nTo: {user.email}\nOTP: {otp}\n-----------------------")
+                print(f"--- SIMULATED EMAIL (Fallback) --- \nTo: {user.email}\nOTP: {otp}\n-----------------------", flush=True)
         
         threading.Thread(target=send_otp_email_store).start()
         
