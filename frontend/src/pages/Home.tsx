@@ -57,15 +57,15 @@ export const Home = () => {
   return (
     <div className="bg-[#fcfbf8] min-h-screen pb-20">
       {/* Hero Section */}
-      <section className="pt-20 pb-16 px-6">
+      <section className="pt-12 md:pt-20 pb-12 md:pb-16 px-4 md:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="font-serif text-5xl md:text-7xl font-bold text-gray-900 tracking-tight leading-tight mb-6">
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-gray-900 tracking-tight leading-tight mb-4 md:mb-6">
             Yeni tərzini <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">
               kəşf et.
             </span>
           </h1>
-          <p className="text-gray-500 text-lg md:text-xl font-medium mb-10 max-w-2xl mx-auto">
+          <p className="text-gray-500 text-base sm:text-lg md:text-xl font-medium mb-8 md:mb-10 max-w-2xl mx-auto">
             Yerli butiklər, eksklüziv kolleksiyalar və hər zövqə uyğun geyimlər bir arada.
           </p>
 
