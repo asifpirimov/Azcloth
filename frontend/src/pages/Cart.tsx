@@ -3,8 +3,10 @@ import { useCart } from '../context/CartContext';
 import type { CartItem } from '../context/CartContext';
 import { Trash2, ShoppingCart, Store as StoreIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export const Cart = () => {
+  usePageTitle('Səbət');
   const { items, removeFromCart, clearCart } = useCart();
 
   if (items.length === 0) {

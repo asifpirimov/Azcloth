@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ProductCard } from '../components/ProductCard';
 import { Link2, Phone, MapPin, Star, AlertTriangle, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export const StoreFront = () => {
   const { slug } = useParams();
@@ -10,6 +11,8 @@ export const StoreFront = () => {
   const [store, setStore] = useState<any>(null);
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  usePageTitle(store ? store.name : 'Mağaza');
 
   // Report state
   const [reportModalOpen, setReportModalOpen] = useState(false);

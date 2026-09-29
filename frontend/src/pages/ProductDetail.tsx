@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { Star, AlertTriangle, X } from 'lucide-react';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export const ProductDetail = () => {
   const { slug } = useParams();
@@ -12,6 +13,8 @@ export const ProductDetail = () => {
   
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  
+  usePageTitle(product ? product.name : 'Məhsul Detalları');
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
   const [quantity, setQuantity] = useState(1);
   const [currentImage, setCurrentImage] = useState<string | null>(null);

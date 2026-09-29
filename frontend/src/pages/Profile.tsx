@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { User, Mail, Lock, LogOut, ChevronRight } from 'lucide-react';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export const Profile = () => {
+  usePageTitle('Profil');
   const { user, login, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 

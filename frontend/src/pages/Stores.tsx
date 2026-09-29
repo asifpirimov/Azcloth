@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Store, Star, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export const Stores = () => {
+  usePageTitle('Mağazalar');
   const [stores, setStores] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 

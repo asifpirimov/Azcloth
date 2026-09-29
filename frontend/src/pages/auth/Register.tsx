@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { GoogleLogin } from '@react-oauth/google';
+import { usePageTitle } from '../../hooks/usePageTitle';
 
 export const Register = () => {
+  usePageTitle('Qeydiyyat');
   const [step, setStep] = useState<'register' | 'otp'>('register');
   const [otp, setOtp] = useState('');
   const [username, setUsername] = useState('');

@@ -3,8 +3,10 @@ import { Search, ShoppingBag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ProductCard } from '../components/ProductCard';
 import { useAuth } from '../context/AuthContext';
+import { usePageTitle } from '../hooks/usePageTitle';
 
 export const Home = () => {
+  usePageTitle('Kəşf et');
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
