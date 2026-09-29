@@ -79,7 +79,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-20 p-8 bg-white rounded-3xl border border-gray-100 shadow-sm">
+    <div className="w-full max-w-md mx-auto mt-20 p-8 bg-white rounded-3xl border border-gray-100 shadow-sm">
       <div className="text-center mb-8">
         <h1 className="font-serif text-3xl font-bold text-gray-900 mb-2">Xoş Gəlmişsiniz</h1>
         <p className="text-gray-500">Hesabınıza daxil olun</p>
