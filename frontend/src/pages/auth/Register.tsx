@@ -62,7 +62,30 @@ export const Register = () => {
       const data = await res.json();
       
       if (!res.ok) {
-        throw new Error(data.username?.[0] || data.email?.[0] || 'Qeydiyyat xətası.');
+        let errorMessage = 'Qeydiyyat xətası.';
+        if (data) {
+          if (typeof data === 'string') {
+            errorMessage = data;
+          } else if (data.detail) {
+            errorMessage = data.detail;
+          } else if (data.error) {
+            errorMessage = data.error;
+          } else {
+            // Collect all error messages from the dictionary
+            const errors = [];
+            for (const key in data) {
+              if (Array.isArray(data[key])) {
+                errors.push(`${key}: ${data[key].join(' ')}`);
+              } else if (typeof data[key] === 'string') {
+                errors.push(`${key}: ${data[key]}`);
+              }
+            }
+            if (errors.length > 0) {
+              errorMessage = errors.join(' | ');
+            }
+          }
+        }
+        throw new Error(errorMessage);
       }
 
       setStep('otp');

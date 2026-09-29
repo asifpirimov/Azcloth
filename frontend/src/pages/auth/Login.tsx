@@ -59,7 +59,31 @@ export const Login = () => {
       const data = await res.json();
       
       if (!res.ok) {
-        throw new Error(data.detail || 'İstifadəçi adı və ya şifrə yanlışdır.');
+        let errorMessage = 'İstifadəçi adı və ya şifrə yanlışdır.';
+        if (data) {
+          if (typeof data === 'string') {
+            errorMessage = data;
+          } else if (data.detail) {
+            errorMessage = data.detail;
+          } else if (data.error) {
+            errorMessage = data.error;
+          } else if (data.non_field_errors) {
+            errorMessage = Array.isArray(data.non_field_errors) ? data.non_field_errors.join(' ') : data.non_field_errors;
+          } else {
+            const errors = [];
+            for (const key in data) {
+              if (Array.isArray(data[key])) {
+                errors.push(`${key}: ${data[key].join(' ')}`);
+              } else if (typeof data[key] === 'string') {
+                errors.push(`${key}: ${data[key]}`);
+              }
+            }
+            if (errors.length > 0) {
+              errorMessage = errors.join(' | ');
+            }
+          }
+        }
+        throw new Error(errorMessage);
       }
 
       login(data);
