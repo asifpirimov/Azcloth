@@ -29,12 +29,18 @@ export const StoreFront = () => {
       .then(res => res.json())
       .then(data => {
         setStore(data);
-        if (data.id) {
+        if (data && data.id) {
           // Fetch store products
           fetch(`${import.meta.env.VITE_API_URL}/api/products/?search=${data.name}`)
             .then(res => res.json())
-            .then(pData => setProducts(pData.results || pData))
-            .catch(err => console.error(err))
+            .then(pData => {
+              const arr = pData.results || pData;
+              setProducts(Array.isArray(arr) ? arr : []);
+            })
+            .catch(err => {
+              console.error(err);
+              setProducts([]);
+            })
             .finally(() => setLoading(false));
         } else {
           setLoading(false);

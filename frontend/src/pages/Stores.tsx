@@ -11,8 +11,14 @@ export const Stores = () => {
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/stores/`)
       .then(res => res.json())
-      .then(data => setStores(data.results || data))
-      .catch(err => console.error("Error fetching stores:", err))
+      .then(data => {
+        const arr = data.results || data;
+        setStores(Array.isArray(arr) ? arr : []);
+      })
+      .catch(err => {
+        console.error("Error fetching stores:", err);
+        setStores([]);
+      })
       .finally(() => setLoading(false));
   }, []);
 

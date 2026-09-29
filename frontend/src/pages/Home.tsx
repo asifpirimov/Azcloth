@@ -30,8 +30,14 @@ export const Home = () => {
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/categories/`)
       .then(res => res.json())
-      .then(data => setCategories(data.results || data))
-      .catch(err => console.error("Error fetching categories:", err));
+      .then(data => {
+        const arr = data.results || data;
+        setCategories(Array.isArray(arr) ? arr : []);
+      })
+      .catch(err => {
+        console.error("Error fetching categories:", err);
+        setCategories([]);
+      });
   }, []);
 
   // Fetch Products based on filters
@@ -44,9 +50,13 @@ export const Home = () => {
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        setProducts(data.results || data);
+        const arr = data.results || data;
+        setProducts(Array.isArray(arr) ? arr : []);
       })
-      .catch(err => console.error("Error fetching products:", err))
+      .catch(err => {
+        console.error("Error fetching products:", err);
+        setProducts([]);
+      })
       .finally(() => setLoading(false));
   }, [activeCategory, searchQuery]);
 
