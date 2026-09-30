@@ -22,8 +22,8 @@ export const Navbar = () => {
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
           
-          <Link to="/" className="font-serif font-bold text-xl md:text-2xl tracking-tighter">
-            az<span className="text-orange-500">cloth</span>
+          <Link to="/">
+            <img src="/logo.svg" alt="AzCloth" className="h-7 md:h-8" />
           </Link>
           
           <div className="hidden md:flex gap-6 text-sm font-medium text-gray-500">

@@ -6,8 +6,8 @@ export const Footer = () => {
     <footer className="bg-white border-t border-gray-100 py-12 mt-auto">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
-          <Link to="/" className="text-2xl font-bold font-serif text-gray-900 tracking-wider">
-            AzCloth
+          <Link to="/">
+            <img src="/logo.svg" alt="AzCloth" className="h-8" />
           </Link>
           <p className="mt-4 text-sm text-gray-500 leading-relaxed">
             Azərbaycanın ən sərfəli onlayn geyim mağazaları şəbəkəsi.
