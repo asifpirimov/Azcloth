@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Eye, Package, TrendingUp, Settings, Shirt } from 'lucide-react';
+import { Eye, Package, TrendingUp, Settings, Shirt, X, FileSpreadsheet } from 'lucide-react';
 
 export const Dashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showExcelModal, setShowExcelModal] = useState(false);
 
   useEffect(() => {
     if (!user || user.role !== 'SELLER') {
@@ -89,46 +90,12 @@ export const Dashboard = () => {
               </button>
             )}
             
-            <label className="bg-green-500 text-white font-bold px-6 py-3 rounded-xl hover:bg-green-600 transition shadow-sm cursor-pointer flex items-center gap-2">
-              <Package size={18} /> Excel İlə Yüklə
-              <input 
-                type="file" 
-                accept=".xlsx" 
-                className="hidden" 
-                onChange={async (e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
-                  
-                  const formData = new FormData();
-                  formData.append('file', file);
-                  
-                  try {
-                    const token = localStorage.getItem('azcloth_token');
-                    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/seller/products/bulk_import/`, {
-                      method: 'POST',
-                      headers: {
-                        'Authorization': `Bearer ${token}`
-                      },
-                      body: formData
-                    });
-                    
-                    const data = await res.json();
-                    if (res.ok) {
-                      alert(data.message || 'Məhsullar uğurla əlavə edildi.');
-                      window.location.reload();
-                    } else {
-                      alert(data.error || 'Xəta baş verdi.');
-                    }
-                  } catch (err) {
-                    console.error(err);
-                    alert('Fayl göndərilərkən xəta baş verdi.');
-                  }
-                  
-                  // Reset input
-                  e.target.value = '';
-                }}
-              />
-            </label>
+            <button 
+              onClick={() => setShowExcelModal(true)}
+              className="bg-green-500 text-white font-bold px-6 py-3 rounded-xl hover:bg-green-600 transition shadow-sm cursor-pointer flex items-center gap-2"
+            >
+              <FileSpreadsheet size={18} /> Excel İlə Yüklə
+            </button>
             
             <button 
               onClick={() => navigate('/seller/products/new')}
@@ -181,6 +148,88 @@ export const Dashboard = () => {
           )}
         </div>
       </div>
+
+      {/* Excel Upload Modal */}
+      {showExcelModal && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-lg w-full shadow-2xl relative">
+            <button 
+              onClick={() => setShowExcelModal(false)}
+              className="absolute top-6 right-6 text-gray-400 hover:text-gray-900 transition"
+            >
+              <X size={24} />
+            </button>
+            
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center text-green-600">
+                <FileSpreadsheet size={24} />
+              </div>
+              <h2 className="font-serif text-2xl font-bold text-gray-900">Excel ilə Yükləmə</h2>
+            </div>
+            
+            <div className="space-y-4 text-gray-600 mb-8">
+              <p>Toplu məhsul əlavə etmək üçün Excel (.xlsx) faylından istifadə edə bilərsiniz.</p>
+              
+              <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                <h3 className="font-bold text-gray-900 mb-3">Məcburi Sütunlar (İngiliscə):</h3>
+                <ul className="list-disc pl-5 space-y-2 text-sm">
+                  <li><span className="font-bold text-gray-900">Name:</span> Məhsulun adı</li>
+                  <li><span className="font-bold text-gray-900">Category:</span> Kateqoriya (məs: köynəklər)</li>
+                  <li><span className="font-bold text-gray-900">Size:</span> Ölçü (məs: S, M, 38, Standart)</li>
+                  <li><span className="font-bold text-gray-900">Stock:</span> Anbardakı say (məs: 15)</li>
+                  <li><span className="font-bold text-gray-900">Price:</span> Qiymət (məs: 29.90)</li>
+                </ul>
+              </div>
+              
+              <div className="bg-orange-50 text-orange-800 p-4 rounded-xl text-sm border border-orange-100">
+                <span className="font-bold">Vacib qeyd:</span> Əgər fərqli ölçülərdə olan eyni adda məhsullar əlavə etsəniz (məs: "Zara Köynək" - S, M, L ölçülərində), sistem onları avtomatik olaraq tək bir məhsulun fərqli variantları kimi qruplaşdıracaq.
+              </div>
+            </div>
+            
+            <label className="w-full bg-green-500 text-white font-bold py-4 rounded-xl hover:bg-green-600 transition shadow-sm cursor-pointer flex items-center justify-center gap-2">
+              <FileSpreadsheet size={20} /> Faylı Seç və Davam Et
+              <input 
+                type="file" 
+                accept=".xlsx" 
+                className="hidden" 
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  
+                  const formData = new FormData();
+                  formData.append('file', file);
+                  
+                  try {
+                    const token = localStorage.getItem('azcloth_token');
+                    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/seller/products/bulk_import/`, {
+                      method: 'POST',
+                      headers: {
+                        'Authorization': `Bearer ${token}`
+                      },
+                      body: formData
+                    });
+                    
+                    const data = await res.json();
+                    if (res.ok) {
+                      alert(data.message || 'Məhsullar uğurla əlavə edildi.');
+                      setShowExcelModal(false);
+                      window.location.reload();
+                    } else {
+                      alert(data.error || 'Xəta baş verdi.');
+                    }
+                  } catch (err) {
+                    console.error(err);
+                    alert('Fayl göndərilərkən xəta baş verdi.');
+                  }
+                  
+                  e.target.value = '';
+                }}
+              />
+            </label>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
