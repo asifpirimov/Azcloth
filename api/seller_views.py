@@ -210,13 +210,17 @@ class SellerStoreView(APIView):
         if not store:
             return Response({"error": "Mağaza tapılmadı"}, status=404)
         
-        # Check if they want to deactivate/delete
+        # Check if they want to change status
         status_update = request.data.get('status')
-        if status_update in ['INACTIVE', 'SUSPENDED']:
-            # Maybe just allow INACTIVE for sellers
-            store.status = 'INACTIVE'
-            store.save()
-            return Response({"message": "Mağaza deaktiv edildi."})
+        if status_update:
+            if status_update in ['INACTIVE', 'SUSPENDED']:
+                store.status = 'INACTIVE'
+                store.save()
+                return Response({"message": "Mağaza deaktiv edildi."})
+            elif status_update == 'ACTIVE':
+                store.status = 'ACTIVE'
+                store.save()
+                return Response({"message": "Mağaza aktiv edildi."})
             
         # Update other fields
         if 'name' in request.data:
