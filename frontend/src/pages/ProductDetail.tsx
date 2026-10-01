@@ -16,6 +16,8 @@ export const ProductDetail = () => {
   
   usePageTitle(product ? product.name : 'Məhsul Detalları');
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
 
@@ -59,7 +61,17 @@ export const ProductDetail = () => {
           setCurrentImage(getImageUrl(found.main_image));
         }
         if (found?.variants?.length > 0) {
-          setSelectedVariant(found.variants[0]);
+          const firstSize = found.variants[0].size;
+          setSelectedSize(firstSize);
+          const colorsForFirstSize = [...new Set(found.variants.filter((v: any) => v.size === firstSize && v.color && v.color !== 'null' && v.color !== '').map((v: any) => v.color))];
+          if (colorsForFirstSize.length > 0) {
+            const firstColor = colorsForFirstSize[0] as string;
+            setSelectedColor(firstColor);
+            const match = found.variants.find((v: any) => v.size === firstSize && v.color === firstColor);
+            setSelectedVariant(match || found.variants[0]);
+          } else {
+            setSelectedVariant(found.variants.find((v: any) => v.size === firstSize) || found.variants[0]);
+          }
         }
         setLoading(false);
         
@@ -307,31 +319,81 @@ export const ProductDetail = () => {
           </p>
 
           <div className="mb-8">
+            {/* Unique sizes */}
             <h3 className="text-sm font-bold text-gray-900 mb-3">ÖLÇÜ SEÇİN</h3>
-            <div className="flex gap-3">
-              {product.variants?.map((v: any) => (
-                <button 
-                  key={v.id}
-                  onClick={() => setSelectedVariant(v)}
-                  className={`w-12 h-12 flex items-center justify-center border-2 rounded-xl text-sm font-bold transition ${
-                    selectedVariant?.id === v.id 
-                      ? 'border-orange-500 text-orange-500 bg-orange-50' 
+            <div className="flex gap-3 flex-wrap">
+              {[...new Set(product.variants?.map((v: any) => v.size))].map((size: any) => (
+                <button
+                  key={size}
+                  onClick={() => {
+                    setSelectedSize(size);
+                    setSelectedColor(null);
+                    // Auto-select first color for this size
+                    const colorsForSize = [...new Set(
+                      product.variants
+                        .filter((v: any) => v.size === size && v.color && v.color !== 'null' && v.color !== '')
+                        .map((v: any) => v.color)
+                    )];
+                    if (colorsForSize.length > 0) {
+                      const firstColor = colorsForSize[0] as string;
+                      setSelectedColor(firstColor);
+                      const match = product.variants.find((v: any) => v.size === size && v.color === firstColor);
+                      setSelectedVariant(match || null);
+                    } else {
+                      // No colors for this size — pick variant directly
+                      const match = product.variants.find((v: any) => v.size === size);
+                      setSelectedVariant(match || null);
+                    }
+                  }}
+                  className={`min-w-12 h-12 px-3 flex items-center justify-center border-2 rounded-xl text-sm font-bold transition ${
+                    selectedSize === size
+                      ? 'border-orange-500 text-orange-500 bg-orange-50'
                       : 'border-gray-200 text-gray-600 hover:border-gray-300'
                   }`}
                 >
-                  {v.size}
+                  {size}
                 </button>
               ))}
             </div>
+
+            {/* Colors for selected size */}
+            {selectedSize && (() => {
+              const colors = [...new Set(
+                product.variants
+                  .filter((v: any) => v.size === selectedSize && v.color && v.color !== 'null' && v.color !== '')
+                  .map((v: any) => v.color)
+              )];
+              if (colors.length === 0) return null;
+              return (
+                <div className="mt-4">
+                  <h3 className="text-sm font-bold text-gray-900 mb-3">RƏNGİ SEÇİN</h3>
+                  <div className="flex gap-2 flex-wrap">
+                    {colors.map((color: any) => (
+                      <button
+                        key={color}
+                        onClick={() => {
+                          setSelectedColor(color);
+                          const match = product.variants.find((v: any) => v.size === selectedSize && v.color === color);
+                          setSelectedVariant(match || null);
+                        }}
+                        className={`px-4 py-2 rounded-xl text-sm font-bold border-2 transition ${
+                          selectedColor === color
+                            ? 'border-orange-500 text-orange-500 bg-orange-50'
+                            : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                        }`}
+                      >
+                        {color}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
             {selectedVariant && (
               <div className="mt-3 flex flex-col gap-1.5">
-                {selectedVariant.color && selectedVariant.color !== 'null' && (
-                  <p className="text-sm text-gray-700">
-                    <span className="font-bold text-gray-900">Rəng:</span> {selectedVariant.color}
-                  </p>
-                )}
                 <p className={`text-xs font-bold ${selectedVariant.stock > 0 ? 'text-gray-500' : 'text-red-500'}`}>
-                  {selectedVariant.stock > 0 ? `Anbarda ${selectedVariant.stock} ədəd qalıb` : 'Bu ölçü tükənib (Out of stock)'}
+                  {selectedVariant.stock > 0 ? `Anbarda ${selectedVariant.stock} ədəd qalıb` : 'Bu variant tükənib (Out of stock)'}
                 </p>
               </div>
             )}
