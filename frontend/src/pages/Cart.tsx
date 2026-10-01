@@ -1,5 +1,6 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import type { CartItem } from '../context/CartContext';
 import { Trash2, ShoppingCart, Store as StoreIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -8,6 +9,46 @@ import { usePageTitle } from '../hooks/usePageTitle';
 export const Cart = () => {
   usePageTitle('Səbət');
   const { items, removeFromCart, clearCart } = useCart();
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return (
+      <div className="relative max-w-4xl mx-auto py-20 px-12 mt-12 bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+        {/* Fake blurred background content */}
+        <div className="blur-sm opacity-40 select-none pointer-events-none">
+          <div className="flex justify-center mb-6 text-gray-300">
+            <ShoppingCart size={64} />
+          </div>
+          <h2 className="font-serif text-3xl font-bold text-gray-900 mb-4 text-center">Səbətiniz boşdur</h2>
+          <p className="text-gray-500 mb-8 text-center">Hələ heç bir məhsul əlavə etməmisiniz. Yeni geyimlər kəşf etməyə başlayın!</p>
+          <div className="flex justify-center">
+            <span className="inline-block bg-orange-500 text-white font-medium px-8 py-3 rounded-full">
+              Alış-verişə Davam Et
+            </span>
+          </div>
+        </div>
+        
+        {/* Foreground message */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/40 backdrop-blur-[6px] p-6 text-center">
+          <div className="bg-white p-8 rounded-3xl shadow-xl shadow-black/5 flex flex-col items-center max-w-md w-full border border-gray-100">
+            <ShoppingCart size={48} className="text-orange-500 mb-4" />
+            <h2 className="font-serif text-2xl font-bold text-gray-900 mb-2">Səbətinizə daxil olun</h2>
+            <p className="text-gray-600 mb-8 text-sm leading-relaxed">
+              Səbətdən istifadə etmək və məhsulları yadda saxlamaq üçün hesab yaradın və ya mövcud hesabınıza daxil olun.
+            </p>
+            <div className="flex w-full gap-3">
+              <Link to="/login" className="flex-1 bg-gray-100 text-gray-900 font-bold px-4 py-3 rounded-xl hover:bg-gray-200 transition text-center">
+                Daxil Ol
+              </Link>
+              <Link to="/register" className="flex-1 bg-orange-500 text-white font-bold px-4 py-3 rounded-xl hover:bg-orange-600 transition text-center shadow-sm shadow-orange-200">
+                Hesab Yarat
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (

@@ -31,10 +31,6 @@ export const Navbar = () => {
             <Link to="/stores" className="hover:text-orange-500 transition">Mağazalar</Link>
           </div>
           
-          <div className="hidden lg:flex bg-gray-100 rounded-full p-1 text-xs font-medium">
-            <button className="px-4 py-1.5 bg-white rounded-full shadow-sm text-gray-900 cursor-pointer">Pərakəndə</button>
-            <button className="px-4 py-1.5 text-gray-500 cursor-pointer">Topdan</button>
-          </div>
         </div>
         
         <div className="flex items-center gap-4 md:gap-6 text-gray-600">
@@ -74,11 +70,8 @@ export const Navbar = () => {
             Mağazalar
           </Link>
           
-          <div className="flex bg-gray-100 rounded-xl p-1 mt-4 text-sm font-medium">
-            <button className="flex-1 py-3 bg-white rounded-xl shadow-sm text-gray-900">Pərakəndə</button>
-            <button className="flex-1 py-3 text-gray-500">Topdan</button>
-          </div>
           
+
           <div className="mt-auto pb-8 flex gap-4">
             <Link to="/cart" onClick={() => setMobileMenuOpen(false)} className="flex-1 bg-orange-500 text-white py-4 rounded-full font-bold flex justify-center items-center gap-2">
               <ShoppingBag size={20} /> Səbət

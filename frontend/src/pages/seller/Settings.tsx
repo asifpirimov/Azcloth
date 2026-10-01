@@ -16,7 +16,8 @@ export const Settings = () => {
     description: '',
     whatsapp_number: '',
     instagram_url: '',
-    theme: 'modern'
+    theme: 'modern',
+    status: ''
   });
 
   const [logoFile, setLogoFile] = useState<File | null>(null);
@@ -47,11 +48,11 @@ export const Settings = () => {
             description: data.description || '',
             whatsapp_number: data.whatsapp_number || '',
             instagram_url: data.instagram_url || '',
-            theme: data.theme || 'modern'
+            theme: data.theme || 'modern',
+            status: data.status || ''
           });
           setPreviewLogo(data.logo ? (data.logo.startsWith('http') ? data.logo : `${import.meta.env.VITE_API_URL}${data.logo}`) : null);
           setPreviewCover(data.cover_image ? (data.cover_image.startsWith('http') ? data.cover_image : `${import.meta.env.VITE_API_URL}${data.cover_image}`) : null);
-
         }
         setLoading(false);
       })
@@ -121,8 +122,14 @@ export const Settings = () => {
     }
   };
 
-  const handleDeactivate = async () => {
-    if (!window.confirm("Mağazanızı deaktiv etmək istədiyinizə əminsiniz? Müştərilər artıq mağazanızı görməyəcək.")) {
+  const handleToggleActivation = async () => {
+    const isCurrentlyActive = formData.status === 'ACTIVE';
+    const newStatus = isCurrentlyActive ? 'INACTIVE' : 'ACTIVE';
+    
+    if (isCurrentlyActive && !window.confirm("Mağazanızı deaktiv etmək istədiyinizə əminsiniz? Müştərilər artıq mağazanızı görməyəcək.")) {
+      return;
+    }
+    if (!isCurrentlyActive && !window.confirm("Mağazanızı aktiv etmək istədiyinizə əminsiniz? Mağazanız və məhsullarınız təkrar görünən olacaq.")) {
       return;
     }
 
@@ -134,13 +141,13 @@ export const Settings = () => {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ status: 'INACTIVE' })
+        body: JSON.stringify({ status: newStatus })
       });
 
       if (res.ok) {
-        alert("Mağaza deaktiv edildi.");
-        logout();
-        navigate('/');
+        alert(isCurrentlyActive ? "Mağaza deaktiv edildi." : "Mağaza aktiv edildi.");
+        setMessage({ type: 'success', text: isCurrentlyActive ? "Mağaza deaktiv edildi." : "Mağaza aktiv edildi." });
+        fetchStoreData();
       }
     } catch (err) {
       alert("Xəta baş verdi.");
@@ -308,18 +315,35 @@ export const Settings = () => {
           </div>
 
           <div className="mt-12">
-            <div className="bg-red-50 border border-red-100 rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-4">
-              <div>
-                <h3 className="text-red-800 font-bold text-lg mb-1">Mağazanı Deaktiv Et</h3>
-                <p className="text-red-600/80 text-sm">Bu əməliyyat mağazanızı və məhsullarınızı platformadan müvəqqəti gizlədəcək.</p>
+            {formData.status === 'ACTIVE' ? (
+              <div className="bg-red-50 border border-red-100 rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-red-800 font-bold text-lg mb-1">Mağazanı Deaktiv Et</h3>
+                  <p className="text-red-600/80 text-sm">Bu əməliyyat mağazanızı və məhsullarınızı platformadan müvəqqəti gizlədəcək.</p>
+                </div>
+                <button 
+                  type="button"
+                  onClick={handleToggleActivation}
+                  className="w-full md:w-auto bg-red-600 text-white font-bold px-6 py-3 rounded-xl hover:bg-red-700 transition whitespace-nowrap"
+                >
+                  Deaktiv Et
+                </button>
               </div>
-              <button 
-                onClick={handleDeactivate}
-                className="w-full md:w-auto bg-red-600 text-white font-bold px-6 py-3 rounded-xl hover:bg-red-700 transition whitespace-nowrap"
-              >
-                Deaktiv Et
-              </button>
-            </div>
+            ) : (
+              <div className="bg-green-50 border border-green-100 rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-green-800 font-bold text-lg mb-1">Mağazanı Aktiv Et</h3>
+                  <p className="text-green-600/80 text-sm">Bu əməliyyat mağazanızı və məhsullarınızı platformada təkrar görünən edəcək.</p>
+                </div>
+                <button 
+                  type="button"
+                  onClick={handleToggleActivation}
+                  className="w-full md:w-auto bg-green-600 text-white font-bold px-6 py-3 rounded-xl hover:bg-green-700 transition whitespace-nowrap"
+                >
+                  Aktiv Et
+                </button>
+              </div>
+            )}
           </div>
 
         </div>
