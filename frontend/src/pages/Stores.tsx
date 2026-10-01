@@ -60,14 +60,20 @@ export const Stores = () => {
                     src={getImageUrl(store.cover_image, "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=600")} 
                     alt="Cover" 
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                    onError={(e) => {
+                      e.currentTarget.src = "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=600";
+                    }}
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
                 </div>
                 <div className="p-6 relative flex-1 flex flex-col">
                   <img 
-                    src={getImageUrl(store.logo, "https://ui-avatars.com/api/?name=" + store.name + "&background=random")} 
+                    src={getImageUrl(store.logo, "https://ui-avatars.com/api/?name=" + encodeURIComponent(store.name) + "&background=random")} 
                     alt="Logo" 
                     className="w-20 h-20 rounded-2xl shadow-lg border-4 border-white absolute -top-10 left-6 bg-white object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(store.name) + "&background=random";
+                    }}
                   />
                   <div className="mt-10 mb-4">
                     <h2 className="text-xl font-bold text-gray-900 group-hover:text-orange-500 transition">{store.name}</h2>

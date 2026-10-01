@@ -91,19 +91,21 @@ export const StoreFront = () => {
     return `${import.meta.env.VITE_API_URL}${path}`;
   };
 
-  const coverImage = getImageUrl(store.cover_image, "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1200");
-  const logoImage = getImageUrl(store.logo, "https://ui-avatars.com/api/?name=" + store.name + "&background=random");
+  const fallbackCover = "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1200";
+  const fallbackLogo = "https://ui-avatars.com/api/?name=" + encodeURIComponent(store.name) + "&background=random";
+  const coverImage = getImageUrl(store.cover_image, fallbackCover);
+  const logoImage = getImageUrl(store.logo, fallbackLogo);
 
   // Modern Theme
   const renderModern = () => (
     <div className="bg-gray-50 min-h-screen">
       <div className="relative h-64 md:h-80 w-full">
-        <img src={coverImage} alt="Cover" className="w-full h-full object-cover" />
+        <img src={coverImage} alt="Cover" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = fallbackCover; }} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
       </div>
       <div className="max-w-7xl mx-auto px-6 relative -mt-20">
         <div className="bg-white rounded-3xl p-8 shadow-xl flex flex-col md:flex-row gap-8 items-start md:items-center">
-          <img src={logoImage} alt="Logo" className="w-32 h-32 rounded-2xl shadow-lg border-4 border-white bg-white object-cover" />
+          <img src={logoImage} alt="Logo" className="w-32 h-32 rounded-2xl shadow-lg border-4 border-white bg-white object-cover" onError={(e) => { e.currentTarget.src = fallbackLogo; }} />
           <div className="flex-1">
             <h1 className="text-4xl font-bold text-gray-900 tracking-tight mb-2">{store.name}</h1>
             <p className="text-gray-600 max-w-2xl">{store.description || 'Bu mağaza haqqında məlumat daxil edilməyib.'}</p>
@@ -141,12 +143,12 @@ export const StoreFront = () => {
       <div className="max-w-7xl mx-auto px-6 py-12 md:py-20 flex flex-col md:flex-row gap-12 items-center">
         <div className="w-full md:w-1/3">
           <div className="aspect-[4/5] overflow-hidden rounded-sm relative">
-            <img src={coverImage} alt="Cover" className="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-1000" />
+            <img src={coverImage} alt="Cover" className="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-1000" onError={(e) => { e.currentTarget.src = fallbackCover; }} />
             <div className="absolute inset-0 border border-black/10"></div>
           </div>
         </div>
         <div className="w-full md:w-2/3 flex flex-col">
-          <img src={logoImage} alt="Logo" className="w-20 h-20 rounded-full object-cover mb-6 border border-gray-200 p-1" />
+          <img src={logoImage} alt="Logo" className="w-20 h-20 rounded-full object-cover mb-6 border border-gray-200 p-1" onError={(e) => { e.currentTarget.src = fallbackLogo; }} />
           <h1 className="text-5xl font-light text-gray-900 tracking-widest uppercase mb-6">{store.name}</h1>
           <p className="text-gray-500 font-light text-lg leading-relaxed max-w-2xl mb-10">{store.description || 'Minimalist dizayn və xüsusi kolleksiya.'}</p>
           
@@ -184,11 +186,11 @@ export const StoreFront = () => {
   const renderBoutique = () => (
     <div className="bg-[#FAF7F2] min-h-screen font-serif">
       <div className="relative h-[50vh] min-h-[400px] w-full">
-        <img src={coverImage} alt="Cover" className="w-full h-full object-cover" />
+        <img src={coverImage} alt="Cover" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = fallbackCover; }} />
         <div className="absolute inset-0 bg-[#FAF7F2]/40 backdrop-blur-sm"></div>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
           <div className="bg-white/80 p-8 rounded-full shadow-2xl backdrop-blur-md mb-6 border border-rose-100">
-            <img src={logoImage} alt="Logo" className="w-24 h-24 rounded-full object-cover" />
+            <img src={logoImage} alt="Logo" className="w-24 h-24 rounded-full object-cover" onError={(e) => { e.currentTarget.src = fallbackLogo; }} />
           </div>
           <h1 className="text-5xl md:text-7xl text-rose-950 mb-4 drop-shadow-sm">{store.name}</h1>
           <div className="flex items-center gap-4 text-rose-900/80 font-medium tracking-widest text-sm uppercase">
@@ -232,12 +234,12 @@ export const StoreFront = () => {
       <div className="bg-[#1a202c] text-white">
         <div className="max-w-7xl mx-auto px-6 h-80 relative flex items-end pb-12">
           <div className="absolute inset-0 opacity-30">
-            <img src={coverImage} alt="Cover" className="w-full h-full object-cover" />
+            <img src={coverImage} alt="Cover" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = fallbackCover; }} />
             <div className="absolute inset-0 bg-gradient-to-t from-[#1a202c] via-[#1a202c]/50 to-transparent"></div>
           </div>
           
           <div className="relative z-10 flex flex-col md:flex-row items-center md:items-end gap-6 w-full text-center md:text-left">
-            <img src={logoImage} alt="Logo" className="w-32 h-32 rounded-lg border-4 border-[#1a202c] shadow-xl object-cover bg-white" />
+            <img src={logoImage} alt="Logo" className="w-32 h-32 rounded-lg border-4 border-[#1a202c] shadow-xl object-cover bg-white" onError={(e) => { e.currentTarget.src = fallbackLogo; }} />
             <div className="flex-1">
               <h1 className="text-4xl md:text-5xl font-bold font-serif mb-2 tracking-wide">{store.name}</h1>
               <p className="text-gray-300 max-w-2xl text-lg">{store.description || 'Keyfiyyət və güvənin ünvanı.'}</p>
