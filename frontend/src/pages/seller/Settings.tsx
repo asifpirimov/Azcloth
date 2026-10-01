@@ -49,8 +49,9 @@ export const Settings = () => {
             instagram_url: data.instagram_url || '',
             theme: data.theme || 'modern'
           });
-          setPreviewLogo(data.logo ? `${import.meta.env.VITE_API_URL}${data.logo}` : null);
-          setPreviewCover(data.cover_image ? `${import.meta.env.VITE_API_URL}${data.cover_image}` : null);
+          setPreviewLogo(data.logo ? (data.logo.startsWith('http') ? data.logo : `${import.meta.env.VITE_API_URL}${data.logo}`) : null);
+          setPreviewCover(data.cover_image ? (data.cover_image.startsWith('http') ? data.cover_image : `${import.meta.env.VITE_API_URL}${data.cover_image}`) : null);
+
         }
         setLoading(false);
       })
