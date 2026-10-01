@@ -88,6 +88,9 @@ export const StoreFront = () => {
   const getImageUrl = (path: string | null, placeholder: string) => {
     if (!path) return placeholder;
     if (path.startsWith('http')) return path;
+    return `${import.meta.env.VITE_API_URL}${path}`;
+  };
+
   const fallbackCover = "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1200";
   const fallbackLogo = "https://api.dicebear.com/9.x/initials/svg?seed=" + encodeURIComponent(store.name);
   const coverImage = getImageUrl(store.cover_image, fallbackCover);
