@@ -61,18 +61,23 @@ export const Stores = () => {
                     alt="Cover" 
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                     onError={(e) => {
-                      e.currentTarget.src = "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=600";
+                      if (e.currentTarget.src !== "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=600") {
+                        e.currentTarget.src = "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=600";
+                      }
                     }}
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
                 </div>
                 <div className="p-6 relative flex-1 flex flex-col">
                   <img 
-                    src={getImageUrl(store.logo, "https://ui-avatars.com/api/?name=" + encodeURIComponent(store.name) + "&background=random")} 
+                    src={getImageUrl(store.logo, "https://api.dicebear.com/9.x/initials/svg?seed=" + encodeURIComponent(store.name))} 
                     alt="Logo" 
                     className="w-20 h-20 rounded-2xl shadow-lg border-4 border-white absolute -top-10 left-6 bg-white object-cover"
                     onError={(e) => {
-                      e.currentTarget.src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(store.name) + "&background=random";
+                      const fallback = "https://api.dicebear.com/9.x/initials/svg?seed=" + encodeURIComponent(store.name);
+                      if (e.currentTarget.src !== fallback) {
+                        e.currentTarget.src = fallback;
+                      }
                     }}
                   />
                   <div className="mt-10 mb-4">
