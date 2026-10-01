@@ -34,8 +34,6 @@ export const Navbar = () => {
         </div>
         
         <div className="flex items-center gap-4 md:gap-6 text-gray-600">
-          <Search size={20} className="cursor-pointer hover:text-gray-900 hidden sm:block" />
-          <Box size={20} className="cursor-pointer hover:text-gray-900 hidden sm:block" />
           
           {(!isAuthenticated || user?.role === 'BUYER') && (
             <Link to="/cart" className="relative bg-orange-500 text-white p-2 md:p-2.5 rounded-full cursor-pointer hover:bg-orange-600 shadow-sm shadow-orange-200">
