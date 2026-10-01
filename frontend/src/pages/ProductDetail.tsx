@@ -324,9 +324,16 @@ export const ProductDetail = () => {
               ))}
             </div>
             {selectedVariant && (
-              <p className={`text-xs mt-3 font-bold ${selectedVariant.stock > 0 ? 'text-gray-500' : 'text-red-500'}`}>
-                {selectedVariant.stock > 0 ? `Anbarda ${selectedVariant.stock} ədəd qalıb` : 'Bu ölçü tükənib (Out of stock)'}
-              </p>
+              <div className="mt-3 flex flex-col gap-1.5">
+                {selectedVariant.color && selectedVariant.color !== 'null' && (
+                  <p className="text-sm text-gray-700">
+                    <span className="font-bold text-gray-900">Rəng:</span> {selectedVariant.color}
+                  </p>
+                )}
+                <p className={`text-xs font-bold ${selectedVariant.stock > 0 ? 'text-gray-500' : 'text-red-500'}`}>
+                  {selectedVariant.stock > 0 ? `Anbarda ${selectedVariant.stock} ədəd qalıb` : 'Bu ölçü tükənib (Out of stock)'}
+                </p>
+              </div>
             )}
           </div>
 
