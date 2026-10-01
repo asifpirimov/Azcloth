@@ -202,7 +202,7 @@ export const Settings = () => {
                 <div className="flex flex-col items-center gap-4">
                   <div className="relative w-32 h-32 rounded-full border-4 border-gray-100 overflow-hidden bg-gray-50 flex items-center justify-center group">
                     {previewLogo ? (
-                      <img src={previewLogo} alt="Logo" className="w-full h-full object-cover" />
+                      <img src={previewLogo} alt="Logo" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = "https://api.dicebear.com/9.x/initials/svg?seed=" + encodeURIComponent(formData.name || 'Store'); }} />
                     ) : (
                       <Store size={40} className="text-gray-300" />
                     )}
@@ -219,7 +219,7 @@ export const Settings = () => {
                 <div className="flex-1 w-full">
                   <div className="relative w-full h-40 rounded-2xl border-4 border-gray-100 overflow-hidden bg-gray-50 flex items-center justify-center group">
                     {previewCover ? (
-                      <img src={previewCover} alt="Cover" className="w-full h-full object-cover" />
+                      <img src={previewCover} alt="Cover" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=600"; }} />
                     ) : (
                       <span className="text-gray-400 font-medium flex items-center gap-2"><ImageIcon /> Qapaq şəkli yüklə</span >
                     )}
