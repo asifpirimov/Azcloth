@@ -7,12 +7,14 @@ class Store(models.Model):
     STATUS_INVITED = 'INVITED'
     STATUS_CLAIMED = 'CLAIMED'
     STATUS_ACTIVE = 'ACTIVE'
+    STATUS_INACTIVE = 'INACTIVE'
     STATUS_SUSPENDED = 'SUSPENDED'
     
     STATUS_CHOICES = [
         (STATUS_INVITED, _('Dəvət edilib')),
         (STATUS_CLAIMED, _('Qeydiyyatdan keçib')),
         (STATUS_ACTIVE, _('Aktiv')),
+        (STATUS_INACTIVE, _('Deaktiv (Gizli)')),
         (STATUS_SUSPENDED, _('Dayandırılıb')),
     ]
 
