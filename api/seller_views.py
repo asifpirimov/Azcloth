@@ -150,6 +150,17 @@ class SellerProductViewSet(viewsets.ModelViewSet):
             # Group by Name to create one Product for multiple variants
             grouped = df.groupby('Name')
             
+            # Validate Size column is not purely numeric
+            for idx, row in df.iterrows():
+                if pd.notna(row.get('Size')):
+                    size_val = str(row['Size']).strip()
+                    if size_val.endswith('.0'):
+                        size_val = size_val[:-2]
+                    if size_val.isdigit():
+                        return Response({
+                            "error": f"Sətir {idx+2}: Ölçü (Size) sütununda yalnız rəqəm (məs: {size_val}) ola bilməz. Ölçülər hərf formatında olmalıdır (məs: S, M, L, XL, One Size)."
+                        }, status=400)
+            
             with transaction.atomic():
                 product_objects = []
                 variant_objects = []
