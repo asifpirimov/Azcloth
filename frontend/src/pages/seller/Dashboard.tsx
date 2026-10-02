@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Eye, Package, TrendingUp, Settings, Shirt, X, FileSpreadsheet } from 'lucide-react';
+import { Eye, Package, TrendingUp, Settings, Shirt, X, FileSpreadsheet, Share2 } from 'lucide-react';
 
 export const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -82,12 +82,39 @@ export const Dashboard = () => {
           <h1 className="font-serif text-3xl font-bold text-gray-900">Məhsullarım</h1>
           <div className="flex gap-4">
             {user?.store_slug && (
-              <button 
-                onClick={() => window.open(`/store/${user.store_slug}`, '_blank')}
-                className="bg-white border border-gray-200 text-gray-700 font-bold px-6 py-3 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition shadow-sm flex items-center gap-2"
-              >
-                <Eye size={18} /> Müştəri gözündən gör
-              </button>
+              <>
+                <button 
+                  onClick={async () => {
+                    const storeUrl = `${window.location.origin}/store/${user.store_slug}`;
+                    if (navigator.share) {
+                      try {
+                        await navigator.share({
+                          title: 'Mənim Mağazam - AzCloth',
+                          url: storeUrl
+                        });
+                      } catch (err) {
+                        console.error('Share error:', err);
+                      }
+                    } else {
+                      try {
+                        await navigator.clipboard.writeText(storeUrl);
+                        alert('Mağazanızın linki kopyalandı!');
+                      } catch (err) {
+                        console.error(err);
+                      }
+                    }
+                  }}
+                  className="bg-white border border-gray-200 text-blue-600 font-bold px-6 py-3 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition shadow-sm flex items-center gap-2"
+                >
+                  <Share2 size={18} /> Paylaş
+                </button>
+                <button 
+                  onClick={() => window.open(`/store/${user.store_slug}`, '_blank')}
+                  className="bg-white border border-gray-200 text-gray-700 font-bold px-6 py-3 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition shadow-sm flex items-center gap-2"
+                >
+                  <Eye size={18} /> Müştəri gözündən gör
+                </button>
+              </>
             )}
             
             <button 
