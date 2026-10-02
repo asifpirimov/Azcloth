@@ -12,3 +12,5 @@ gunicorn
 whitenoise
 cloudinary
 django-cloudinary-storage
+pandas
+openpyxl
