@@ -46,13 +46,20 @@ class Product(models.Model):
         return self.name
         
     def save(self, *args, **kwargs):
+        if not self.slug:
+            from django.utils.text import slugify
+            import uuid
+            base_slug = slugify(self.name)
+            self.slug = f"{base_slug}-{uuid.uuid4().hex[:6]}"
+            
         # Allow resizing if new or main_image changed
         if self.pk:
             old_obj = Product.objects.get(pk=self.pk)
             if old_obj.main_image != self.main_image:
                 resize_image(self.main_image)
         else:
-            resize_image(self.main_image)
+            if self.main_image:
+                resize_image(self.main_image)
         super().save(*args, **kwargs)
     
     @property
