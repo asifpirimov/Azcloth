@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Third-party
+    'anymail',
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
@@ -148,14 +149,38 @@ if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
     }
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email backend configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = env('EMAIL_HOST', default='localhost')
-EMAIL_PORT = env.int('EMAIL_PORT', default=1025)
-EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
-EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=False)
-DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='noreply@azcloth.com')
+# ---------------------------------------------------------------------------
+# Email — Anymail / Resend (HTTPS, port 443)
+# Docs: https://anymail.dev/en/stable/esps/resend/
+# REQUESTS_TIMEOUT: https://anymail.dev/en/stable/installation/#configuration-settings
+# ---------------------------------------------------------------------------
+EMAIL_BACKEND = 'anymail.backends.resend.EmailBackend'
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='noreply@azcloth.store')
+
+_resend_api_key = env('RESEND_API_KEY', default='')
+if not _resend_api_key and not DEBUG:
+    import logging as _logging
+    _logging.getLogger('django').error(
+        'RESEND_API_KEY env var is not set — all email sends will fail.'
+    )
+
+ANYMAIL = {
+    # API key from https://resend.com/api-keys — "Sending access" permission only.
+    # Set the RESEND_API_KEY environment variable on Render; never put the key in code.
+    "RESEND_API_KEY": _resend_api_key,
+    # Timeout for the HTTPS call to api.resend.com (connect + read, seconds).
+    # Source: anymail.dev/en/stable/installation/#configuration-settings
+    "REQUESTS_TIMEOUT": 10,
+}
+
+# Legacy SMTP variables — no longer used; kept only so existing .env files don't error.
+# EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_USE_TLS
+# are read below purely to avoid ImproperlyConfigured if they exist in .env.
+_EMAIL_HOST = env('EMAIL_HOST', default='')
+_EMAIL_PORT = env.int('EMAIL_PORT', default=587)
+_EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+_EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+_EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
 
 # DRF Settings
 REST_FRAMEWORK = {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Store, CheckCircle, AlertCircle, Eye } from 'lucide-react';
+import { OtpStep } from '../../components/OtpStep';
 
 const ThemePreview = ({ theme, storeName }: { theme: string, storeName: string }) => {
   const cover = "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=600";
@@ -261,61 +262,16 @@ export const StoreRegister = () => {
 
   if (step === 'otp') {
     return (
-      <div className="min-h-screen bg-[#fcfbf8] px-4 py-12 flex justify-center items-center">
-        <div className="max-w-md w-full bg-white rounded-3xl border border-gray-100 p-10 text-center shadow-xl">
-          <h1 className="font-serif text-3xl font-bold text-gray-900 mb-2">E-poçt Təsdiqi</h1>
-          <p className="text-gray-500 mb-8">{formData.email} ünvanına göndərilən 6 rəqəmli kodu daxil edin</p>
-          
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-xl text-sm font-medium">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleOtpSubmit} className="flex flex-col gap-5">
-            <div>
-              <input 
-                type="text" 
-                value={otp}
-                onChange={e => setOtp(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none focus:border-orange-500 transition text-center tracking-widest font-bold text-xl"
-                placeholder="000000"
-                maxLength={6}
-                required
-              />
-            </div>
-            <button 
-              type="submit" 
-              disabled={loading || otp.length < 6}
-              className="w-full bg-orange-500 text-white font-bold py-3.5 rounded-xl hover:bg-orange-600 transition disabled:opacity-70"
-            >
-              {loading ? 'Yoxlanılır...' : 'Təsdiqlə'}
-            </button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <button 
-              type="button" 
-              onClick={async () => {
-                try {
-                  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/resend-otp/`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: formData.email })
-                  });
-                  if (!res.ok) throw new Error('Yenidən göndərmə uğursuz oldu.');
-                  alert('Yeni kod göndərildi.');
-                } catch (err: any) {
-                  alert(err.message);
-                }
-              }}
-              className="text-sm font-bold text-gray-500 hover:text-gray-900 transition underline"
-            >
-              Kodu yenidən göndər
-            </button>
-          </div>
-        </div>
-      </div>
+      <OtpStep
+        email={formData.email}
+        error={error}
+        setError={setError}
+        loading={loading}
+        otp={otp}
+        setOtp={setOtp}
+        onSubmit={handleOtpSubmit}
+        apiBase={import.meta.env.VITE_API_URL}
+      />
     );
   }
 
