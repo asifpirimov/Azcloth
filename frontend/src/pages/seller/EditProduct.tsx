@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Trash2, Plus, ImagePlus, X, Save, ArrowLeft } from 'lucide-react';
+import { SEO } from '../../components/SEO';
 
 interface Variant {
   id?: number;
@@ -265,6 +266,7 @@ export const EditProduct = () => {
 
   return (
     <div className="flex min-h-screen bg-[#fcfbf8]">
+      <SEO title="Məhsulu Redaktə Et" noindex={true} />
       {/* Sidebar */}
       <div className="w-64 bg-white border-r border-gray-100 flex flex-col p-6">
         <h2 className="font-serif font-bold text-2xl tracking-tighter mb-10 cursor-pointer" onClick={() => navigate('/seller/dashboard')}>

@@ -11,6 +11,7 @@ import { Login } from './pages/auth/Login';
 import { Register } from './pages/auth/Register';
 import { Dashboard } from './pages/seller/Dashboard';
 import { Settings } from './pages/seller/Settings';
+import { NotFound } from './pages/NotFound';
 import { Statistics } from './pages/seller/Statistics';
 import { NewProduct } from './pages/seller/NewProduct';
 import { EditProduct } from './pages/seller/EditProduct';
@@ -62,6 +63,7 @@ const App = () => {
               <Route path="/admin/invites" element={<Invites />} />
               <Route path="/admin/reports" element={<AdminReports />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
           </div>

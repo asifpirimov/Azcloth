@@ -1,8 +1,10 @@
 import React from 'react';
+import { SEO } from '../../components/SEO';
 
 export const Terms = () => {
   return (
     <div className="max-w-4xl mx-auto px-6 py-16 text-gray-800">
+      <SEO title="İstifadə Qaydaları" description="AzCloth platformasının istifadə qaydaları və şərtləri." />
       <h1 className="text-4xl font-bold mb-8">İstifadə Qaydaları</h1>
       
       <p className="mb-4 text-sm text-gray-500">Son yenilənmə: [Effective Date]</p>

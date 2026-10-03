@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { ShieldAlert, CheckCircle, Ban } from 'lucide-react';
+import { SEO } from '../../components/SEO';
 
 export const AdminReports = () => {
   const navigate = useNavigate();
@@ -88,6 +89,7 @@ export const AdminReports = () => {
 
   return (
     <div className="p-8">
+      <SEO title="Şikayətlər" noindex={true} />
       <div className="flex items-center gap-3 mb-8">
         <div className="w-12 h-12 bg-red-100 text-red-500 rounded-2xl flex items-center justify-center">
           <ShieldAlert size={24} />

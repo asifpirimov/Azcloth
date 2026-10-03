@@ -3,10 +3,9 @@ import { Search, ShoppingBag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ProductCard } from '../components/ProductCard';
 import { useAuth } from '../context/AuthContext';
-import { usePageTitle } from '../hooks/usePageTitle';
+import { SEO } from '../components/SEO';
 
 export const Home = () => {
-  usePageTitle('Kəşf et');
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -68,6 +67,7 @@ export const Home = () => {
 
   return (
     <div className="bg-[#fcfbf8] min-h-screen pb-20">
+      <SEO fullTitle="AzCloth | Azərbaycanın yerli butikləri" />
       {/* Hero Section */}
       <section className="pt-12 md:pt-20 pb-12 md:pb-16 px-4 md:px-6">
         <div className="max-w-4xl mx-auto text-center">
@@ -149,8 +149,8 @@ export const Home = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {products.map((product, index) => (
+              <ProductCard key={product.id} product={product} priority={index < 4} />
             ))}
           </div>
         )}

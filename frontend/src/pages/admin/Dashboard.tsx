@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { LayoutDashboard, Store, Package, Banknote, Copy, Plus, ShieldAlert, ChevronRight, Ban, CheckCircle } from 'lucide-react';
+import { SEO } from '../../components/SEO';
 
 export const AdminDashboard = () => {
   const { user, isAuthenticated } = useAuth();
@@ -89,6 +90,7 @@ export const AdminDashboard = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-12">
+      <SEO title="Admin Paneli" noindex={true} />
       {/* Header */}
       <div className="flex items-center gap-4 mb-10">
         <div className="w-14 h-14 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center">

@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /cart
+Disallow: /login
+Disallow: /register
+Disallow: /store-register
+Disallow: /profile
+Disallow: /seller/
+Disallow: /admin
+Disallow: /admin/
+
+Sitemap: https://www.azcloth.store/sitemap.xml

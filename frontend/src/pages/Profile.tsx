@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { User, Mail, Lock, LogOut, ChevronRight } from 'lucide-react';
-import { usePageTitle } from '../hooks/usePageTitle';
+import { SEO } from '../components/SEO';
 
 export const Profile = () => {
-  usePageTitle('Profil');
+
   const { user, login, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -105,6 +105,7 @@ export const Profile = () => {
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-16">
+      <SEO title="Profil" noindex={true} />
       {/* Header */}
       <div className="flex items-center gap-5 mb-10">
         <div className="w-16 h-16 rounded-full bg-gray-900 flex items-center justify-center text-white font-bold text-xl">

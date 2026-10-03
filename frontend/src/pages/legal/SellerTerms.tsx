@@ -1,9 +1,11 @@
 import React from 'react';
+import { SEO } from '../../components/SEO';
 
 export const SellerTerms = () => {
   return (
     <div className="max-w-4xl mx-auto px-6 py-16 text-gray-800">
-      <h1 className="text-4xl font-bold mb-8">Satıcı Qaydaları (Seller Terms)</h1>
+      <SEO title="Satıcı Qaydaları" description="AzCloth platformasında satıcı olmaq üçün şərtlər və qaydalar." />
+      <h1 className="text-4xl font-bold mb-8">Satıcı Qaydaları</h1>
       
       <p className="mb-4 text-sm text-gray-500">Son yenilənmə: [Effective Date]</p>
 

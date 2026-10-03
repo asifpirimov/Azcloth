@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Store, CheckCircle, AlertCircle, Eye } from 'lucide-react';
 import { OtpStep } from '../../components/OtpStep';
+import { SEO } from '../../components/SEO';
 
 const ThemePreview = ({ theme, storeName }: { theme: string, storeName: string }) => {
   const cover = "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=600";
@@ -238,6 +239,7 @@ export const StoreRegister = () => {
   if (validating) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#fcfbf8]">
+        <SEO title="Link Yoxlanılır" noindex={true} />
         <p className="text-gray-500 font-medium">Link yoxlanılır...</p>
       </div>
     );
@@ -246,6 +248,7 @@ export const StoreRegister = () => {
   if (!valid) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#fcfbf8] px-4">
+        <SEO title="Etibarsız Link" noindex={true} />
         <div className="bg-white rounded-3xl border border-gray-100 p-10 max-w-md w-full text-center shadow-sm">
           <AlertCircle size={48} className="text-red-500 mx-auto mb-6" />
           <h1 className="font-serif text-2xl font-bold text-gray-900 mb-4">Etibarsız Link</h1>
@@ -262,8 +265,10 @@ export const StoreRegister = () => {
 
   if (step === 'otp') {
     return (
-      <OtpStep
-        email={formData.email}
+      <>
+        <SEO title="E-poçt Təsdiqi" noindex={true} />
+        <OtpStep
+          email={formData.email}
         error={error}
         setError={setError}
         loading={loading}
@@ -271,12 +276,14 @@ export const StoreRegister = () => {
         setOtp={setOtp}
         onSubmit={handleOtpSubmit}
         apiBase={import.meta.env.VITE_API_URL}
-      />
+        />
+      </>
     );
   }
 
   return (
     <div className="min-h-screen bg-[#fcfbf8] px-4 py-12 flex justify-center items-center">
+      <SEO title="Mağaza Qeydiyyatı" noindex={true} />
       <div className="max-w-6xl w-full flex gap-12 items-center">
         
         {/* Left Side: Form */}

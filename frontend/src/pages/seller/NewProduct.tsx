@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { ArrowLeft } from 'lucide-react';
+import { SEO } from '../../components/SEO';
 
 export const NewProduct = () => {
   const { user } = useAuth();
@@ -111,6 +112,7 @@ export const NewProduct = () => {
 
   return (
     <div className="flex min-h-screen bg-[#fcfbf8]">
+      <SEO title="Yeni Məhsul" noindex={true} />
       {/* Sidebar - simplified for this page */}
       <div className="w-64 bg-white border-r border-gray-100 flex flex-col p-6">
         <h2 className="font-serif font-bold text-2xl tracking-tighter mb-10 cursor-pointer" onClick={() => navigate('/seller/dashboard')}>
