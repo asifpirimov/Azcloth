@@ -1,9 +1,11 @@
 import React from 'react';
+import { SEO } from '../../components/SEO';
 
 export const Privacy = () => {
   return (
     <div className="max-w-4xl mx-auto px-6 py-16 text-gray-800">
-      <h1 className="text-4xl font-bold mb-8">Məxfilik Siyasəti (Privacy Policy)</h1>
+      <SEO title="Məxfilik Siyasəti" description="AzCloth məxfilik siyasəti və məlumatların qorunması qaydaları." />
+      <h1 className="text-4xl font-bold mb-8">Məxfilik Siyasəti</h1>
       
       <p className="mb-4 text-sm text-gray-500">Son yenilənmə: [Effective Date]</p>
 

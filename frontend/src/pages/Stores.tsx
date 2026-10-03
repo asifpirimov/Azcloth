@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Store, Star, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { usePageTitle } from '../hooks/usePageTitle';
+import { SEO } from '../components/SEO';
 
 export const Stores = () => {
-  usePageTitle('Mağazalar');
   const [stores, setStores] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -30,6 +29,14 @@ export const Stores = () => {
 
   return (
     <div className="bg-[#fcfbf8] min-h-screen pt-24 pb-20">
+      <SEO 
+        title="Mağazalar" 
+        description="Platformamızdakı ən yaxşı butikləri və brendləri kəşf edin."
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Mağazalar', url: '/stores' }
+        ]}
+      />
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12">
           <h1 className="font-serif text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -53,12 +60,15 @@ export const Stores = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {stores.map(store => (
+            {stores.map((store, index) => (
               <Link key={store.id} to={`/store/${store.slug}`} className="bg-white border border-gray-100 rounded-3xl overflow-hidden hover:shadow-xl hover:border-orange-200 transition duration-300 group flex flex-col">
                 <div className="h-48 relative">
                   <img 
                     src={getImageUrl(store.cover_image, "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=600")} 
-                    alt="Cover" 
+                    alt={`${store.name} mağaza üzlüyü`}
+                    width={600}
+                    height={192}
+                    loading={index < 3 ? undefined : "lazy"}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                     onError={(e) => {
                       if (e.currentTarget.src !== "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=600") {
@@ -71,7 +81,10 @@ export const Stores = () => {
                 <div className="p-6 relative flex-1 flex flex-col">
                   <img 
                     src={getImageUrl(store.logo, "https://api.dicebear.com/9.x/initials/svg?seed=" + encodeURIComponent(store.name))} 
-                    alt="Logo" 
+                    alt={`${store.name} loqosu`}
+                    width={80}
+                    height={80}
+                    loading={index < 3 ? undefined : "lazy"}
                     className="w-20 h-20 rounded-2xl shadow-lg border-4 border-white absolute -top-10 left-6 bg-white object-cover"
                     onError={(e) => {
                       const fallback = "https://api.dicebear.com/9.x/initials/svg?seed=" + encodeURIComponent(store.name);

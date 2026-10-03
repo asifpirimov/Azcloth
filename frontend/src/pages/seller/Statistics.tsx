@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Package, TrendingUp, Settings, Eye, MessageCircle, Star } from 'lucide-react';
+import { SEO } from '../../components/SEO';
 
 export const Statistics = () => {
   const { user, logout } = useAuth();
@@ -42,6 +43,7 @@ export const Statistics = () => {
 
   return (
     <div className="flex min-h-screen bg-[#fcfbf8]">
+      <SEO title="Statistika" noindex={true} />
       {/* Sidebar */}
       <div className="w-64 bg-white border-r border-gray-100 flex flex-col p-6">
         <h2 className="font-serif font-bold text-2xl tracking-tighter mb-10">

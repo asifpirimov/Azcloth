@@ -6,9 +6,10 @@ import { useAuth } from '../context/AuthContext';
 
 interface ProductCardProps {
   product: any;
+  priority?: boolean;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ product, priority = false }) => {
   const { addToCart } = useCart();
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
@@ -51,6 +52,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <img 
           src={imageUrl} 
           alt={product.name}
+          width={600}
+          height={800}
+          loading={priority ? undefined : "lazy"}
           className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
         />
         

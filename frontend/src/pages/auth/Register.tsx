@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { GoogleLogin } from '@react-oauth/google';
-import { usePageTitle } from '../../hooks/usePageTitle';
+import { SEO } from '../../components/SEO';
 import { OtpStep } from '../../components/OtpStep';
 
 export const Register = () => {
-  usePageTitle('Qeydiyyat');
+
   const [step, setStep] = useState<'register' | 'otp'>('register');
   const [otp, setOtp] = useState('');
   const [username, setUsername] = useState('');
@@ -132,7 +132,9 @@ export const Register = () => {
 
   if (step === 'otp') {
     return (
-      <OtpStep
+      <>
+        <SEO title="E-poçt təsdiqi" noindex={true} />
+        <OtpStep
         email={email}
         error={error}
         setError={setError}
@@ -142,11 +144,13 @@ export const Register = () => {
         onSubmit={handleOtpSubmit}
         apiBase={import.meta.env.VITE_API_URL}
       />
+      </>
     );
   }
 
   return (
     <div className="w-full max-w-md mx-auto mt-20 p-8 bg-white rounded-3xl border border-gray-100 shadow-sm">
+      <SEO title="Qeydiyyat" noindex={true} />
       <div className="text-center mb-8">
         <h1 className="font-serif text-3xl font-bold text-gray-900 mb-2">Qeydiyyat</h1>
         <p className="text-gray-500">Yeni alıcı hesabı yaradın</p>

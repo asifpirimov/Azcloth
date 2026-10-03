@@ -1,8 +1,10 @@
 import React from 'react';
+import { SEO } from '../../components/SEO';
 
 export const Contact = () => {
   return (
     <div className="max-w-4xl mx-auto px-6 py-16 text-gray-800">
+      <SEO title="Əlaqə" description="AzCloth ilə əlaqə saxlayın. Suallarınız, təklifləriniz və əməkdaşlıq üçün bizə yazın." />
       <h1 className="text-4xl font-bold mb-8">Əlaqə</h1>
       
       <section className="mb-12">

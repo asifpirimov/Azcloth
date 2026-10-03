@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Store, Save, Image as ImageIcon, CheckCircle, AlertTriangle, LogOut, Package, TrendingUp, Settings as SettingsIcon } from 'lucide-react';
+import { SEO } from '../../components/SEO';
 
 export const Settings = () => {
   const { user, logout } = useAuth();
@@ -158,6 +159,7 @@ export const Settings = () => {
 
   return (
     <div className="flex min-h-screen bg-[#fcfbf8]">
+      <SEO title="Tənzimləmələr" noindex={true} />
       {/* Sidebar */}
       <div className="w-64 bg-white border-r border-gray-100 flex flex-col p-6 fixed h-full z-10">
         <h2 className="font-serif font-bold text-2xl tracking-tighter mb-10">

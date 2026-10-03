@@ -4,16 +4,17 @@ import { useAuth } from '../context/AuthContext';
 import type { CartItem } from '../context/CartContext';
 import { Trash2, ShoppingCart, Store as StoreIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { usePageTitle } from '../hooks/usePageTitle';
+import { SEO } from '../components/SEO';
 
 export const Cart = () => {
-  usePageTitle('Səbət');
+
   const { items, removeFromCart, clearCart } = useCart();
   const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
     return (
       <div className="relative max-w-4xl mx-auto py-20 px-12 mt-12 bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+        <SEO title="Səbət" noindex={true} />
         {/* Fake blurred background content */}
         <div className="blur-sm opacity-40 select-none pointer-events-none">
           <div className="flex justify-center mb-6 text-gray-300">
@@ -53,6 +54,7 @@ export const Cart = () => {
   if (items.length === 0) {
     return (
       <div className="max-w-4xl mx-auto py-20 px-12 text-center bg-white mt-12 rounded-3xl border border-gray-100 shadow-sm">
+        <SEO title="Səbət" noindex={true} />
         <div className="flex justify-center mb-6 text-gray-300">
           <ShoppingCart size={64} />
         </div>
@@ -98,6 +100,7 @@ export const Cart = () => {
 
   return (
     <div className="max-w-5xl mx-auto py-12 px-12">
+      <SEO title="Səbət" noindex={true} />
       <h1 className="font-serif text-4xl font-bold text-gray-900 mb-8">Səbətiniz</h1>
       
       <div className="flex flex-col gap-8">
@@ -122,6 +125,9 @@ export const Cart = () => {
                     <img 
                       src={!item.product.main_image ? "https://images.unsplash.com/photo-1594938298598-70f70df95c9d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" : item.product.main_image.startsWith('http') ? item.product.main_image : `${import.meta.env.VITE_API_URL}${item.product.main_image}`} 
                       alt={item.product.name} 
+                      width={80}
+                      height={96}
+                      loading="lazy"
                       className="w-full h-full object-cover" 
                     />
                   </div>

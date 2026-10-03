@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Copy, Plus, Store } from 'lucide-react';
+import { SEO } from '../../components/SEO';
 
 export const Invites = () => {
   const { user, isAuthenticated } = useAuth();
@@ -76,6 +77,7 @@ export const Invites = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-16">
+      <SEO title="Mağaza Dəvətləri" noindex={true} />
       <div className="flex items-center gap-3 mb-10">
         <Store size={32} className="text-orange-500" />
         <h1 className="font-serif text-3xl font-bold text-gray-900">Mağaza Dəvətləri</h1>

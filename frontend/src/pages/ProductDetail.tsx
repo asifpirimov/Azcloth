@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { Star, AlertTriangle, X } from 'lucide-react';
-import { usePageTitle } from '../hooks/usePageTitle';
+import { SEO } from '../components/SEO';
 
 export const ProductDetail = () => {
   const { slug } = useParams();
@@ -14,7 +14,6 @@ export const ProductDetail = () => {
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   
-  usePageTitle(product ? product.name : 'Məhsul Detalları');
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
@@ -92,7 +91,12 @@ export const ProductDetail = () => {
   }, [slug]);
 
   if (loading) return <div className="p-20 text-center">Yüklənir...</div>;
-  if (!product) return <div className="p-20 text-center">Məhsul tapılmadı.</div>;
+  if (!product) return (
+    <div className="p-20 text-center">
+      <SEO title="Məhsul tapılmadı" noindex={true} />
+      Məhsul tapılmadı.
+    </div>
+  );
 
   const handleAddToCart = () => {
     if (!isAuthenticated) {
@@ -247,6 +251,14 @@ export const ProductDetail = () => {
 
   return (
     <div className="max-w-6xl mx-auto py-12 px-12">
+      <SEO 
+        title={product.name} 
+        description={product.description || `${product.name} məhsulu${product.store?.name ? ` ${product.store.name} mağazasında` : ''}.`} 
+        ogImage={product.main_image ? getImageUrl(product.main_image) : undefined}
+        type="product"
+        product={product}
+        price={selectedVariant ? selectedVariant.price : product.base_price}
+      />
       <div className="flex flex-col md:flex-row gap-12 bg-white p-8 rounded-3xl shadow-sm border border-gray-100 mb-12">
         
         {/* Image Gallery */}
@@ -255,6 +267,8 @@ export const ProductDetail = () => {
             <img 
               src={currentImage || getImageUrl(product.main_image)} 
               alt={product.name} 
+              width={400}
+              height={500}
               className="w-full h-full object-cover group-hover:scale-105 transition duration-700" 
             />
           </div>
@@ -266,7 +280,7 @@ export const ProductDetail = () => {
                   onClick={() => setCurrentImage(getImageUrl(product.main_image))}
                   className={`flex-shrink-0 w-20 h-24 rounded-xl overflow-hidden border-2 transition ${currentImage === getImageUrl(product.main_image) ? 'border-orange-500' : 'border-transparent hover:border-gray-300'}`}
                 >
-                  <img src={getImageUrl(product.main_image)} className="w-full h-full object-cover" />
+                  <img src={getImageUrl(product.main_image)} alt={`${product.name} əsas kiçik şəkil`} width={80} height={96} loading="lazy" className="w-full h-full object-cover" />
                 </button>
               )}
               {product.images?.map((img: any) => (
@@ -275,7 +289,7 @@ export const ProductDetail = () => {
                   onClick={() => setCurrentImage(getImageUrl(img.image))}
                   className={`flex-shrink-0 w-20 h-24 rounded-xl overflow-hidden border-2 transition ${currentImage === getImageUrl(img.image) ? 'border-orange-500' : 'border-transparent hover:border-gray-300'}`}
                 >
-                  <img src={getImageUrl(img.image)} className="w-full h-full object-cover" />
+                  <img src={getImageUrl(img.image)} alt={`${product.name} kiçik şəkil ${img.id}`} width={80} height={96} loading="lazy" className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
@@ -487,7 +501,7 @@ export const ProductDetail = () => {
                     <div className="flex gap-2 mt-3 flex-wrap">
                       {reviewImagePreviews.map((preview, idx) => (
                         <div key={idx} className="relative w-16 h-16">
-                          <img src={preview} alt="" className="w-full h-full object-cover rounded-lg border border-gray-200" />
+                          <img src={preview} alt="" width={400} height={400} className="w-full h-full object-cover rounded-lg border border-gray-200" />
                           <button
                             type="button"
                             onClick={() => {
@@ -612,7 +626,7 @@ export const ProductDetail = () => {
                     <div className="flex gap-2 mt-3 flex-wrap">
                       {rev.images.map((img: any) => (
                         <a key={img.id} href={getImageUrl(img.image)} target="_blank" rel="noopener noreferrer">
-                          <img src={getImageUrl(img.image)} alt="Review" className="w-20 h-20 object-cover rounded-xl border border-gray-200 hover:opacity-80 transition" />
+                          <img src={getImageUrl(img.image)} alt="Review" width={80} height={80} className="w-20 h-20 object-cover rounded-xl border border-gray-200 hover:opacity-80 transition" />
                         </a>
                       ))}
                     </div>
@@ -707,7 +721,7 @@ export const ProductDetail = () => {
                     <div className="flex gap-2 mt-3 flex-wrap">
                       {reportImagePreviews.map((preview, idx) => (
                         <div key={idx} className="relative w-16 h-16">
-                          <img src={preview} alt="" className="w-full h-full object-cover rounded-lg border border-gray-200" />
+                          <img src={preview} alt="" width={400} height={400} className="w-full h-full object-cover rounded-lg border border-gray-200" />
                           <button
                             type="button"
                             onClick={() => {

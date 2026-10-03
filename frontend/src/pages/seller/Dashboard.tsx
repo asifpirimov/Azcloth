@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Eye, Package, TrendingUp, Settings, Shirt, X, FileSpreadsheet, Share2 } from 'lucide-react';
+import { SEO } from '../../components/SEO';
 
 export const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -47,6 +48,7 @@ export const Dashboard = () => {
 
   return (
     <div className="flex min-h-screen bg-[#fcfbf8]">
+      <SEO title="Satıcı Paneli" noindex={true} />
       {/* Sidebar */}
       <div className="w-64 bg-white border-r border-gray-100 flex flex-col p-6">
         <h2 className="font-serif font-bold text-2xl tracking-tighter mb-10">
@@ -202,7 +204,7 @@ export const Dashboard = () => {
                 <ul className="list-disc pl-5 space-y-2 text-sm">
                   <li><span className="font-bold text-gray-900">Name:</span> Məhsulun adı</li>
                   <li><span className="font-bold text-gray-900">Category:</span> Kateqoriya (məs: köynəklər)</li>
-                  <li><span className="font-bold text-gray-900">Size:</span> Ölçü (məs: S, M, 38, Standart)</li>
+                  <li><span className="font-bold text-gray-900">Size:</span> Ölçü <span className="text-red-500 font-medium">(Yalnız hərf! məs: S, M, L, Standart. Rəqəm olmaz!)</span></li>
                   <li><span className="font-bold text-gray-900">Stock:</span> Anbardakı say (məs: 15)</li>
                   <li><span className="font-bold text-gray-900">Price:</span> Qiymət (məs: 29.90)</li>
                 </ul>
