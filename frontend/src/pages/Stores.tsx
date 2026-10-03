@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Store, Star, MapPin } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Store, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEO } from '../components/SEO';
 
@@ -31,11 +31,7 @@ export const Stores = () => {
     <div className="bg-[#fcfbf8] min-h-screen pt-24 pb-20">
       <SEO 
         title="Mağazalar" 
-        description="Platformamızdakı ən yaxşı butikləri və brendləri kəşf edin."
-        breadcrumbs={[
-          { name: 'Home', url: '/' },
-          { name: 'Mağazalar', url: '/stores' }
-        ]}
+        description="AzCloth platformasındakı bütün mağazaları və yerli butikləri kəşf edin."
       />
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12">
@@ -43,7 +39,7 @@ export const Stores = () => {
             Bütün Mağazalar
           </h1>
           <p className="text-gray-500 text-lg">
-            Platformamızdakı ən yaxşı butikləri və brendləri kəşf edin.
+            AzCloth platformasındakı bütün mağazaları və yerli butikləri kəşf edin.
           </p>
         </div>
 

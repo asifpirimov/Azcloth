@@ -35,7 +35,6 @@ export const SEO: React.FC<SEOProps> = ({
   product,
   price,
   fullTitle,
-  breadcrumbs,
 }) => {
   const location = useLocation();
   
@@ -60,7 +59,7 @@ export const SEO: React.FC<SEOProps> = ({
       }
 
       // Open Graph
-      updateTag('meta', 'property', 'og:title', 'content', fullTitle);
+      updateTag('meta', 'property', 'og:title', 'content', computedTitle);
       updateTag('meta', 'property', 'og:description', 'content', description);
       updateTag('meta', 'property', 'og:url', 'content', baseCanonical);
       updateTag('meta', 'property', 'og:type', 'content', type);
@@ -122,7 +121,7 @@ export const SEO: React.FC<SEOProps> = ({
         if (!schemaScript) {
           schemaScript = document.createElement('script');
           schemaScript.id = 'route-schema';
-          schemaScript.type = 'application/ld+json';
+          schemaScript.setAttribute('type', 'application/ld+json');
           document.head.appendChild(schemaScript);
         }
         schemaScript.textContent = JSON.stringify(schemas);
@@ -136,7 +135,7 @@ export const SEO: React.FC<SEOProps> = ({
     return () => {
       document.title = originalTitle;
     };
-  }, [title, description, canonicalUrl, ogImage, type, noindex, product, location.pathname]);
+  }, [title, description, canonicalUrl, ogImage, type, noindex, product, price, fullTitle, location.pathname]);
 
   return null;
 };
