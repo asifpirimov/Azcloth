@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { whatsappLink } from '../config/site';
 
 interface OtpStepProps {
   email: string;
@@ -124,6 +125,11 @@ export const OtpStep: React.FC<OtpStepProps> = ({
             {resendLoading ? 'Göndərilir...' : 'Kodu yenidən göndər'}
           </button>
         )}
+        <div className="mt-4">
+          <a href={whatsappLink("Salam, təsdiq kodu ala bilmirəm.")} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 hover:text-[#25D366] transition">
+            Kod gəlmirsə, bizə WhatsApp-da yazın.
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -1,17 +1,22 @@
 import React from 'react';
 import { SEO } from '../../components/SEO';
+import { WhatsAppCard } from '../../components/WhatsAppCard';
 
 export const Contact = () => {
   return (
     <div className="max-w-4xl mx-auto px-6 py-16 text-gray-800">
       <SEO title="Əlaqə" description="AzCloth ilə əlaqə saxlayın. Suallarınız, təklifləriniz və əməkdaşlıq üçün bizə yazın." />
-      <h1 className="text-4xl font-bold mb-8">Əlaqə</h1>
+      <h1 className="text-4xl font-bold mb-16">Əlaqə</h1>
       
       <section className="mb-12">
         <p className="leading-relaxed mb-4">
           Hər hansı bir sualınız, təklifiniz və ya iradınız varsa, bizimlə əlaqə saxlamaqdan çəkinməyin. Komandamız ən qısa zamanda sizə geri dönüş edəcək.
         </p>
       </section>
+
+      <div className="mb-8">
+        <WhatsAppCard message="Salam, AzCloth haqqında məlumat almaq istəyirəm." />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <section className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">

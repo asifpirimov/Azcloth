@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { Home } from './pages/Home';
 import { ProductDetail } from './pages/ProductDetail';
 import { StoreFront } from './pages/StoreFront';
@@ -65,6 +66,7 @@ const App = () => {
               <Route path="/profile" element={<Profile />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <FloatingWhatsApp />
             <Footer />
           </div>
         </BrowserRouter>
