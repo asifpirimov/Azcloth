@@ -4,6 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import { Store, CheckCircle, AlertCircle, Eye } from 'lucide-react';
 import { OtpStep } from '../../components/OtpStep';
 import { SEO } from '../../components/SEO';
+import { whatsappLink } from '../../config/site';
+import { WhatsAppCard } from '../../components/WhatsAppCard';
 
 const ThemePreview = ({ theme, storeName }: { theme: string, storeName: string }) => {
   const cover = "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=600";
@@ -255,9 +257,12 @@ export const StoreRegister = () => {
           <p className="text-gray-600 mb-8">
             {error || 'Bu dəvət linki etibarsızdır və ya artıq istifadə edilib.'}
           </p>
-          <Link to="/" className="text-orange-500 font-bold hover:underline">
+          <Link to="/" className="text-orange-500 font-bold hover:underline mb-4 block">
             Ana səhifəyə qayıt
           </Link>
+          <a href={whatsappLink("Salam, mağaza qeydiyyatı linkim işləmir.")} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 hover:text-[#25D366] transition">
+            Link işləmirsə, bizə WhatsApp-da yazın.
+          </a>
         </div>
       </div>
     );
@@ -435,6 +440,10 @@ export const StoreRegister = () => {
               )}
             </button>
           </form>
+
+          <div className="mt-12">
+            <WhatsAppCard message="Salam, AzCloth-da mağaza yaratmaq istəyirəm." />
+          </div>
         </div>
 
         {/* Right Side: Live Preview */}
